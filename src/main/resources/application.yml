@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: support-service
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+
+  kafka:
+    bootstrap-servers: ${BOOTSTRAP_SERVERS}
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.type.mapping: >
+          stolen:com.softserve.support.dto.ScooterStatusDto
+    consumer:
+      group-id: support
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.type.mapping: >
+          status:com.softserve.support.dto.ScooterStatusDto
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_SERVER}/eureka/
+
+logging:
+  file:
+    path: /var/log/messages
+
